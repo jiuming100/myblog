@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}码二哥|博客{% endblock %}
+
+{% block active %}
+    <li><a href="{% url 'index' %}">首页</a></li>
+    <li class="active"><a href="{% url 'blog' %}">博客</a></li>
+    <li><a href="{% url 'aboutus' %}">关于我们</a></li>
+{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="jumbotron">
+        <h1><a href="{% url 'homepage' author.id %}" style="text-decoration: none;" data-toggle="tooltip" data-placement="top" title="点击返回个人主页">{{ author.user.username }}的个人主页</a></h1>
+                <p>给世界带句话：{{ author.motto }}</p>
+    </div>
+</div>
+      <div class="row">
+        <div class="col-sm-8 blog-main">
+        <!--开始继承-->
+        {% block homepage_left_content %}
+        <div class="page-header">
+          <h1>{{ author.user.username }}的全部文章   <span class="badge">共{% if blogs.paginator.count %}{{ blogs.paginator.count }}{% else %}0{% endif %}篇</span></h1>
+        </div>
+
+            {% for blog in blogs %}
+          <div class="blog-post">
+          <a href="{% url 'homepage_blog_detail' blog.pk %}">
+            <h3 class="blog-post-title">{{ blog.title }}{% if blog.is_init %}<span style="display:inline-block;background-color:#d9534f;color:white;font-size: 6px;font-weight:bold;padding:3px;margin-left: 5px;">原创</span>{% endif %}</h3>
+          </a>
+            <p class="blog-post-meta" style="font-size: smaller"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> {{ blog.blog_category }} &nbsp;阅读({{ blog.get_read_count }}) &nbsp;评论({{ blog.get_comment_count }}) &nbsp; {{ blog.create_time|date:'Y-m-d H:i:s' }} </p>
+
+          </div><!-- /.blog-post -->
+                {% empty %}
+                暂无博客，敬请期待！
+            {% endfor %}
+        {% endblock %}
+                 <!--分页-->
+<nav aria-label="Page navigation" class="text-center">
+  <ul class="pagination">
+      {% if blogs.has_previous %}
+    <li>
+      <a href="?page={{ blogs.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+      {% endif %}
+
+  {% for i in page_range %}
+      {% ifequal i '...' %}
+          <li><a href="">{{ i }}</a></li>
+      {% else %}
+            {% ifequal i blogs.number %}
+                <li class="active"><a href="">{{ i }}</a></li>
+            {% else %}
+                <li><a href="?page={{ i }}">{{ i }}</a></li>
+            {% endifequal %}
+
+      {% endifequal %}
+  {% endfor %}
+    {% if blogs.has_next %}
+    <li>
+      <a href="?page={{ blogs.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  {% endif %}
+  </ul>
+</nav>
+        </div><!-- /.blog-main -->
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+            <div class="sidebar-module sidebar-module-inset">
+            <h4>个人简介</h4>
+            <p class="text-warning">{{ author.profile }}</p>
+          </div>
+
+            <div class="sidebar-module">
+            <h4>最近文章</h4>
+            <div class="list-group" style="width: 112%;margin-left: -6%;">
+              {% for i in blogs_recent %}
+                      <a href="{% url 'homepage_blog_detail' i.id %}" class="list-group-item list-group-item-info">{{ forloop.counter }}.{{ i.title|truncatechars:23 }}</a>
+                  {% empty %}
+                  暂无分类
+              {% endfor %}
+            </div>
+          </div>
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+
+{% endblock %}

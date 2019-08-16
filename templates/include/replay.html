@@ -1,0 +1,78 @@
+{% load staticfiles %}
+<div class="row">
+        <div class="panel panel-info">
+          <div class="panel-heading">
+            <h3 class="panel-title">留言/评论</h3>
+          </div>
+          <div class="panel-body">
+            {% if not request.user.is_authenticated %}
+                您尚未登录，请点击 <a class="btn btn-primary" href="{% url 'login' %}" role="button"> 登录 </a> 或<a class="btn btn-danger" href="{% url 'register' %}" role="button"> 注册 </a>查看、评论留言
+
+            {% else %}
+                {% if blog.is_replay %}
+                <div><span style="font-size: 14px">{{ request.user.username }},赶快留言评论吧~</span></div>
+
+                <form id="comment_form" method="post" action="{% url 'comment' %}">
+                    {% csrf_token %}
+                    {{ comment_form }}
+                    <span id="comment_error" class="text-danger pull-left">
+                        {% for error in comment_form.non_field_errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </span>
+                    <button class="btn btn-primary pull-right" >发布</button>
+                </form>
+                {% else %}
+                    <div class="alert alert-danger" role="alert">留言功能作者已关闭！</div>
+                {% endif %}
+            {% endif %}
+          </div>
+        </div>
+    </div>
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script type="text/javascript">
+
+$(document).ready(function () {
+        $("#comment_form").submit(function(){
+            // 判断是否为空
+            $("#comment_error").text('');
+            if($("#id_comment").val().trim()==''){
+                $("#comment_error").text('评论内容不能为空');
+                return false;
+            }
+            // 更新数据到textarea
+            //CKEDITOR.instances['id_text'].updateElement();
+            // 异步提交
+            $.ajax({
+                url: "{% url 'comment' %}",
+                type: 'POST',
+                data: $(this).serialize(),
+                cache: false,
+                success: function(data){
+                    console.log(data);
+                    if(data['status']=="SUCCESS"){
+                        //如果提示框存在，则删除
+                        var show = $(".alert.alert-warning").length;
+                        if(show>0){
+                            $(".alert.alert-warning").remove()
+                        }
+                        // 插入数据
+                        var name = "'"+data['username']+"',"+data['id'];
+                        var comment_html = '<div class="panel panel-default"><div class="panel-heading">' + data['username'] +'留言<span style="font-size: 12px">（'+data['comment_time']+'）</span>:<span class="pull-right" style="font-size: 12px">等待作者审核</span></div><div class="panel-body" style="font-size: 14px">'+data['comment']+'</div></div>';
+                        $("#comment_list").prepend(comment_html);
+                        // 清空编辑框的内容
+                        $("#id_comment").val('');
+
+                    }else{
+                        // 显示错误信息
+                        $("#comment_error").text(data['message']);
+                    }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+            return false;
+        });
+});
+</script>

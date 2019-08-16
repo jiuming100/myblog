@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+<title>{% block title %}码二哥|首页{% endblock %}</title>
+{% block content %}
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+        <h1>暂无内容，敬请期待!</h1>
+
+      </div>
+    <div class="row">
+
+        <div class="col-sm-8 blog-main">
+             <div id="cont" style="max-width:800px;height:300px" class="center-block"></div>
+        </div>
+        <div class="col-sm-4 blog-sidebar">
+            <div class="panel panel-default">
+              <div class="panel-heading">今日热门博客</div>
+              <div class="panel-body">
+                <ol class="list-unstyled">
+                {% for i in today %}
+                    <li><a href="{% url 'blog_detail' i.id %}">{{ forloop.counter }}.{{ i.title|truncatechars:17 }}</a> ({{ i.aor__read_num }})</li>
+                    {% empty %}
+                    暂无博客
+                {% endfor %}
+                </ol>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">昨天热门博客</div>
+              <div class="panel-body">
+                <ol class="list-unstyled">
+                {% for i in yesterday %}
+                    <li><a href="{% url 'blog_detail' i.id %}">{{ forloop.counter }}.{{ i.title|truncatechars:17 }}</a> ({{ i.aor__read_num }})</li>
+                    {% empty %}
+                    暂无博客
+                {% endfor %}
+                </ol>
+              </div>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-heading">近七天热门博客</div>
+              <div class="panel-body">
+                <ol class="list-unstyled">
+                {% for i in seven_days %}
+                    <li><a href="{% url 'blog_detail' i.aor__object_id %}">{{ forloop.counter }}.{{ i.title|truncatechars:17 }}</a> ({{ i.read_sum }})</li>
+                {% empty %}
+                    暂无博客
+                {% endfor %}
+                </ol>
+              </div>
+            </div>
+        </div>
+    </div>
+
+
+ {% endblock %}
+{% block js %}
+    <script src="{% static 'js/highcharts.js' %}"></script>
+    <script>
+        var chart = Highcharts.chart('cont', {
+		title: {
+				text: '近七天阅读量'
+		},
+		yAxis: {
+				title: {
+						text: ''
+				}
+		},
+		xAxis: {
+                categories: {{ reading_date|safe }}
+        },
+		series: [{
+				name: '阅读量',
+				data: {{ reading_data }}
+		}],
+        legend:{
+		    enabled: false
+            },
+        credits:{
+                enabled: false // 禁用版权信息
+                },
+		responsive: {
+				rules: [{
+						condition: {
+								maxWidth: 500
+						},
+						chartOptions: {
+								legend: {
+										layout: 'horizontal',
+										align: 'center',
+										verticalAlign: 'bottom'
+								}
+						}
+				}]
+		}
+});
+    </script>
+{% endblock %}

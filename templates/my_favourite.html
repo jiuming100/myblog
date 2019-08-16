@@ -1,0 +1,21 @@
+{% extends 'homepage.html' %}
+{% load staticfiles %}
+{% block title %}码二哥|个人收藏{% endblock %}
+
+{% block homepage_left_content %}
+        <div class="page-header">
+          <h1>我的收藏   <span class="badge">共{% if blogs.length %}0{% else %}{{ blogs.paginator.count }}{% endif %}篇</span></h1>
+        </div>
+
+            {% for blog in blogs %}
+          <div class="blog-post">
+          <a href="{% url 'blog_detail' blog.pk %}">
+            <h3 class="blog-post-title">{{ blog.title }}</h3>
+          </a>
+            <p class="blog-post-meta" style="font-size: smaller"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> {{ blog.blog_category }} &nbsp;阅读({{ blog.get_read_count }}) &nbsp;评论({{ blog.get_comment_count }}) &nbsp; {{ blog.create_time|date:'Y-m-d H:i:s' }} &nbsp; 作者: {{ blog.author.user }}</p>
+
+          </div><!-- /.blog-post -->
+                {% empty %}
+                暂无博客，敬请期待！
+            {% endfor %}
+{% endblock %}

@@ -1,0 +1,85 @@
+<div class="row text-primary" style="margin-top: -40px;margin-bottom: 20px">
+        <div class="pull-right">
+             <button type="button" class="btn btn-default" style="margin-right: 10px" onclick="togglebtn(this,'blog',{{ blog.id }})">
+                <span class="glyphicon glyphicon-thumbs-up text-primary {% if islike %}active{% endif %}" aria-hidden="true"></span>
+                <span class="text-primary liked-num">{{ blog.get_likes_count }}</span><span class="text-primary">人喜欢</span>
+            </button>
+            <button type="button" class="btn btn-default" onclick="favbtn(this,'blog',{{ blog.id }})">
+                <span class="glyphicon glyphicon-heart text-primary {% if isfav %}active{% endif %}" aria-hidden="true"></span><span class="text-primary">{% if isfav %}您已收藏{% else %}点击收藏{% endif %}</span>
+            </button>
+
+    </div>
+</div>
+<script>
+
+function togglebtn(obj, content_type, object_id) {
+    var is_like = obj.getElementsByClassName('active').length == 0;
+            $.ajax({
+                url: "{% url 'like' %}",
+                type: 'GET',
+                data: {
+                    content_type: content_type,
+                    object_id: object_id,
+                    is_like: is_like,
+                },
+                cache: false,
+                success: function(data){
+                    if(data['status']=='SUCCESS'){
+                        // 更新点赞状态
+                        var element = $(obj.getElementsByClassName('glyphicon'));
+                        if(is_like){
+                            element.addClass('active');
+                        }else{
+                            element.removeClass('active');
+                        }
+                        // 更新点赞数量
+                        var liked_num = $(obj.getElementsByClassName('liked-num'));
+                        liked_num.text(data['liked_num']);
+                    }else{
+                        alert(data['message']);
+                        if(data['code']==400){
+                            window.location.href = "{% url 'login' %}";
+                        }
+                    }
+                },
+                error: function(xhr){
+                    console.log(xhr)
+                }
+            });
+}
+
+function favbtn(obj, content_type, object_id) {
+    var is_fav = obj.getElementsByClassName('active').length == 0;
+            $.ajax({
+                url: "{% url 'favourite' %}",
+                type: 'GET',
+                data: {
+                    content_type: content_type,
+                    object_id: object_id,
+                    is_fav: is_fav,
+                },
+                cache: false,
+                success: function(data){
+                    if(data['status']=='SUCCESS'){
+                        // 更新点赞状态
+                        var element = $(obj.getElementsByClassName('glyphicon'));
+                        if(is_fav){
+                            element.addClass('active');
+                            element.next().text('您已收藏');
+                        }else{
+                            element.removeClass('active');
+                            element.next().text('点击收藏');
+                        }
+                    }else{
+                        alert(data['message']);
+                        if(data['code']==400){
+                            window.location.href = "{% url 'login' %}";
+                        }
+                    }
+                },
+                error: function(xhr){
+                    console.log(xhr)
+                }
+            });
+}
+</script>

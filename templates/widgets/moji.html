@@ -1,0 +1,280 @@
+{% load staticfiles %}
+<div contenteditable="true" style="width: 100%;height: 100px;margin-bottom: 10px;border: 2px solid #d9edf7;"></div>
+<a class="btn btn-default btn-sm pull-left bq"><img src="{% static 'img/icon/bba_thumb.gif' %}"/>
+表情</a>
+{#                    //表情#}
+<div class="face">
+    <ul>
+      <li><img src="{% static 'img/icon/smilea_thumb.gif' %}" title="[呵呵]"></li>
+      <li><img src="{% static 'img/icon/tootha_thumb.gif' %}" title="[嘻嘻]"></li>
+      <li><img src="{% static 'img/icon/laugh.gif' %}" title="[哈哈]"></li>
+      <li><img src="{% static 'img/icon/tza_thumb.gif' %}" title="[可爱]"></li>
+      <li><img src="{% static 'img/icon/kl_thumb.gif' %}" title="[可怜]"></li>
+      <li><img src="{% static 'img/icon/kbsa_thumb.gif' %}" title="[挖鼻屎]"></li>
+      <li><img src="{% static 'img/icon/cj_thumb.gif' %}" title="[吃惊]"></li>
+      <li><img src="{% static 'img/icon/shamea_thumb.gif' %}" title="[害羞]"></li>
+      <li><img src="{% static 'img/icon/zy_thumb.gif' %}" title="[挤眼]"></li>
+      <li><img src="{% static 'img/icon/bs2_thumb.gif' %}" title="[鄙视]"></li>
+      <li><img src="{% static 'img/icon/lovea_thumb.gif' %}" title="[爱你]"></li>
+      <li><img src="{% static 'img/icon/sada_thumb.gif' %}" title="[泪]"></li>
+      <li><img src="{% static 'img/icon/heia_thumb.gif' %}" title="[偷笑]"></li>
+      <li><img src="{% static 'img/icon/qq_thumb.gif' %}" title="[亲亲]"></li>
+      <li><img src="{% static 'img/icon/sb_thumb.gif' %}" title="[生病]"></li>
+      <li><img src="{% static 'img/icon/mb_thumb.gif' %}" title="[太开心]"></li>
+      <li><img src="{% static 'img/icon/mb_thumb.gif' %}" title="[懒得理你]"></li>
+      <li><img src="{% static 'img/icon/yhh_thumb.gif' %}" title="[右哼哼]"></li>
+      <li><img src="{% static 'img/icon/zhh_thumb.gif' %}" title="[左哼哼]"></li>
+      <li><img src="{% static 'img/icon/x_thumb.gif' %}" title="[嘘]"></li>
+      <li><img src="{% static 'img/icon/cry.gif' %}" title="[衰]"></li>
+      <li><img src="{% static 'img/icon/wq_thumb.gif' %}" title="[委屈]"></li>
+      <li><img src="{% static 'img/icon/t_thumb.gif' %}" title="[吐]"></li>
+      <li><img src="{% static 'img/icon/k_thumb.gif' %}" title="[打哈气]"></li>
+      <li><img src="{% static 'img/icon/bba_thumb.gif' %}" title="[抱抱]"></li>
+      <li><img src="{% static 'img/icon/angrya_thumb.gif' %}" title="[怒]"></li>
+      <li><img src="{% static 'img/icon/yw_thumb.gif' %}" title="[疑问]"></li>
+      <li><img src="{% static 'img/icon/cza_thumb.gif' %}" title="[馋嘴]"></li>
+      <li><img src="{% static 'img/icon/88_thumb.gif' %}" title="[拜拜]"></li>
+      <li><img src="{% static 'img/icon/sk_thumb.gif' %}" title="[思考]"></li>
+      <li><img src="{% static 'img/icon/sweata_thumb.gif' %}" title="[汗]"></li>
+      <li><img src="{% static 'img/icon/sleepya_thumb.gif' %}" title="[困]"></li>
+      <li><img src="{% static 'img/icon/sleepa_thumb.gif' %}" title="[睡觉]"></li>
+      <li><img src="{% static 'img/icon/money_thumb.gif' %}" title="[钱]"></li>
+      <li><img src="{% static 'img/icon/sw_thumb.gif' %}" title="[失望]"></li>
+      <li><img src="{% static 'img/icon/cool_thumb.gif' %}" title="[酷]"></li>
+      <li><img src="{% static 'img/icon/hsa_thumb.gif' %}" title="[花心]"></li>
+      <li><img src="{% static 'img/icon/hatea_thumb.gif' %}" title="[哼]"></li>
+      <li><img src="{% static 'img/icon/gza_thumb.gif' %}" title="[鼓掌]"></li>
+      <li><img src="{% static 'img/icon/dizzya_thumb.gif' %}" title="[晕]"></li>
+      <li><img src="{% static 'img/icon/bs_thumb.gif' %}" title="[悲伤]"></li>
+      <li><img src="{% static 'img/icon/crazya_thumb.gif' %}" title="[抓狂]"></li>
+      <li><img src="{% static 'img/icon/h_thumb.gif' %}" title="[黑线]"></li>
+      <li><img src="{% static 'img/icon/yx_thumb.gif' %}" title="[阴险]"></li>
+      <li><img src="{% static 'img/icon/nm_thumb.gif' %}" title="[怒骂]"></li>
+      <li><img src="{% static 'img/icon/hearta_thumb.gif' %}" title="[心]"></li>
+      <li><img src="{% static 'img/icon/unheart.gif' %}" title="[伤心]"></li>
+      <li><img src="{% static 'img/icon/pig.gif' %}" title="[猪头]"></li>
+      <li><img src="{% static 'img/icon/ok_thumb.gif' %}" title="[ok]"></li>
+      <li><img src="{% static 'img/icon/ye_thumb.gif' %}" title="[耶]"></li>
+      <li><img src="{% static 'img/icon/good_thumb.gif' %}" title="[good]"></li>
+      <li><img src="{% static 'img/icon/no_thumb.gif' %}" title="[不要]"></li>
+      <li><img src="{% static 'img/icon/z2_thumb.gif' %}" title="[赞]"></li>
+      <li><img src="{% static 'img/icon/come_thumb.gif' %}" title="[来]"></li>
+      <li><img src="{% static 'img/icon/sad_thumb.gif' %}" title="[弱]"></li>
+      <li><img src="{% static 'img/icon/lazu_thumb.gif' %}" title="[蜡烛]"></li>
+      <li><img src="{% static 'img/icon/clock_thumb.gif' %}" title="[钟]"></li>
+      <li><img src="{% static 'img/icon/cake.gif' %}" title="[蛋糕]"></li>
+      <li><img src="{% static 'img/icon/m_thumb.gif' %}" title="[话筒]"></li>
+      <li><img src="{% static 'img/icon/weijin_thumb.gif' %}" title="[围脖]"></li>
+      <li><img src="{% static 'img/icon/lxhzhuanfa_thumb.gif' %}" title="[转发]"></li>
+      <li><img src="{% static 'img/icon/lxhluguo_thumb.gif' %}" title="[路过这儿]"></li>
+      <li><img src="{% static 'img/icon/bofubianlian_thumb.gif' %}" title="[bofu变脸]"></li>
+      <li><img src="{% static 'img/icon/gbzkun_thumb.gif' %}" title="[gbz困]"></li>
+      <li><img src="{% static 'img/icon/boboshengmenqi_thumb.gif' %}" title="[生闷气]"></li>
+      <li><img src="{% static 'img/icon/chn_buyaoya_thumb.gif' %}" title="[不要啊]"></li>
+      <li><img src="{% static 'img/icon/daxiongleibenxiong_thumb.gif' %}" title="[dx泪奔]"></li>
+      <li><img src="{% static 'img/icon/cat_yunqizhong_thumb.gif' %}" title="[运气中]"></li>
+      <li><img src="{% static 'img/icon/youqian_thumb.gif' %}" title="[有钱]"></li>
+    </ul>
+</div>
+		<!--face end-->
+<script>
+(function($){
+    $.fn.extend({
+        insertAtCaret: function(myValue){
+            var $t=$(this)[0];
+            if (document.selection) {
+                this.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                this.focus();
+            }
+            else
+                if ($t.selectionStart || $t.selectionStart == '0') {
+                    var startPos = $t.selectionStart;
+                    var endPos = $t.selectionEnd;
+                    var scrollTop = $t.scrollTop;
+                    $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length);
+                    this.focus();
+                    $t.selectionStart = startPos + myValue.length;
+                    $t.selectionEnd = startPos + myValue.length;
+                    $t.scrollTop = scrollTop;
+                }
+                else {
+                    this.value += myValue;
+                    this.focus();
+                }
+        }
+    })
+})(jQuery);
+//点击小图片，显示表情
+	$(".bq").click(function (e) {
+		$(".face").slideDown();//慢慢向下展开
+		e.stopPropagation(); //阻止冒泡事件
+	});
+
+	//在桌面任意地方点击，关闭表情框
+	$(document).click(function () {
+		$(".face").slideUp(); //慢慢向上收
+	});
+	//点击小图标时，添加功能
+	$(".face ul li").click(function () {
+		var simg = $(this).find("img")[0].title;
+		$(this).parents("#comment_form").children("textarea").insertAtCaret(simg);//将表情添加到输入框
+	});
+
+
+</script>
+
+<script>
+(function($){
+    $.fn.extend({
+        insertAtCaret: function(myValue){
+            var $t=$(this)[0];
+            if (document.selection) {
+                this.focus();
+                sel = document.selection.createRange();
+                sel.text = myValue;
+                this.focus();
+            }
+            else
+                if ($t.selectionStart || $t.selectionStart == '0') {
+                    var startPos = $t.selectionStart;
+                    var endPos = $t.selectionEnd;
+                    var scrollTop = $t.scrollTop;
+                    $t.value = $t.value.substring(0, startPos) + myValue + $t.value.substring(endPos, $t.value.length);
+                    this.focus();
+                    $t.selectionStart = startPos + myValue.length;
+                    $t.selectionEnd = startPos + myValue.length;
+                    $t.scrollTop = scrollTop;
+                }
+                else {
+                    this.value += myValue;
+                    this.focus();
+                }
+        }
+    })
+})(jQuery);
+//点击小图片，显示表情
+	$(".bq").click(function (e) {
+		$(".face").slideDown();//慢慢向下展开
+		e.stopPropagation(); //阻止冒泡事件
+	});
+
+	//在桌面任意地方点击，关闭表情框
+	$(document).click(function () {
+		$(".face").slideUp(); //慢慢向上收
+	});
+	//点击小图标时，添加功能
+	$(".face ul li").click(function () {
+		var simg = $(this).find("img")[0].title;
+		$(this).parents("#comment_form").children("textarea").insertAtCaret(simg);//将表情添加到输入框
+	});
+
+
+</script>
+
+    <style type="text/css">
+
+
+	/*face begin*/
+	.face {
+		width: 440px;
+		background: #fff;
+		border: 1px solid #ddd;
+		box-shadow: 0 0 12px #666;
+		position: relative;
+		/*绝对定位*/
+		/*隐藏*/
+        display: inline-block;
+	}
+
+	.face ul {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-wrap: wrap;
+		padding: 8px;
+		box-sizing: border-box;
+	}
+
+	.face ul li {
+		width: 30px;
+		height: 30px;
+		list-style-type: none;
+		cursor: pointer;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+    .face ul li:hover{
+        border: 1px solid dimgrey;
+    }
+
+	/*msgCon begin*/
+	.msgCon {
+		width: 600px;
+		margin: 0px auto;
+		margin-bottom: 60px;
+	}
+
+	.msgCon .msgBox {
+		background: #fff;
+		padding: 10px;
+		box-sizing: border-box;
+		margin-top: 16px;
+		border-radius: 4px;
+	}
+
+	.msgCon .msgBox .headUrl {
+		width: 100%;
+		height: 60px;
+		border-bottom: 1px dotted #ddd;
+		display: flex;
+		align-items: center;
+	}
+
+	.msgCon .msgBox .headUrl img {
+		width: 46px;
+		height: 46px;
+		border-radius: 50%
+	}
+
+	.msgCon .msgBox .headUrl div {
+		flex: 1;
+		display: flex;
+		flex-flow: column;
+		font-size: 16px;
+		margin-left: 16px;
+		-webkit-background-clip: text;
+		color: transparent;
+		background-image: linear-gradient(to top, #b224ef 0%, #7579ff 100%);
+	}
+
+	.msgCon .msgBox .headUrl div .time {
+		font-size: 14px;
+		margin-top: 6px;
+		-webkit-background-clip: text;
+		color: transparent;
+		background-image: linear-gradient(to right, #74ebd5 0%, #9face6 100%);
+	}
+
+	.msgCon .msgBox .headUrl a {
+		font-size: 14px;
+		padding: 10px;
+		color: salmon;
+		cursor: pointer;
+	}
+
+	.msgCon .msgBox .msgTxt {
+		font-size: 14px;
+		color: #666;
+		min-height: 40px;
+		line-height: 24px;
+		padding: 10px;
+		box-sizing: border-box;
+		word-wrap: break-word;
+		-webkit-background-clip: text;
+		color: transparent;
+		background-image: linear-gradient(to right, #778899 0%, #333 100%);
+	}
+</style>

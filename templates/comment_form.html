@@ -1,0 +1,10 @@
+<div><span class="text-capitalize" style="font-size: 14px">{{ request.user.username }},回复{{ c.user.username }}的留言吧~</span></div>
+<form id="comment_form" method="post" action="{% url 'comment' %}">
+    {% csrf_token %}
+    {{ comment_form }}
+    <span id="comment_error" class="text-danger pull-left">
+        {% for error in comment_form.non_field_errors %}
+            {{ error }}
+        {% endfor %}</span>
+    <button class="btn btn-primary pull-right" >发布</button>
+</form>

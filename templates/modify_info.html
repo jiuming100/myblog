@@ -1,0 +1,319 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}码二哥|个人信息修改{% endblock %}
+
+{% block active %}
+    <li><a href="{% url 'index' %}">首页</a></li>
+    <li><a href="{% url 'blog' %}">博客</a></li>
+    <li><a href="/">关于我们</a></li>
+{% endblock %}
+{% block content %}
+
+
+      <div class="row">
+
+        <div class="col-sm-8 col-sm-offset-2">
+             <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">个人信息</h3>
+                  </div>
+                  <div class="panel-body">
+
+                      <div class="form-group">
+                        <label for="username">用户名</label><span class="pull-right"><a href="#usernameModal" data-toggle="modal">修改</a></span>
+                        <input type="text" class="form-control" id="username" placeholder="{{ request.user }}" disabled>
+
+                      </div>
+                      <div class="form-group">
+                        <label for="nickname">昵称</label><span class="pull-right"><a href="#nicknameModal" data-toggle="modal">修改</a></span>
+                        <input type="text" class="form-control" id="nickname" placeholder="{{ profile.nickname }}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="motto">座右铭</label><span class="pull-right"><a href="#mottoModal" data-toggle="modal">修改</a></span>
+                        <input type="text" class="form-control" id="motto" placeholder="{{ profile.motto }}" disabled>
+                      </div>
+                      <div class="form-group">
+                        <label for="profile">个人简介</label><span class="pull-right"><a href="#profileModal" data-toggle="modal">修改</a></span>
+                          <textarea class="form-control" id="profile" rows="5" placeholder="{{ profile.profile }}" disabled></textarea>
+                      </div>
+                      <div class="form-group">
+                        <label for="password">密码</label><span class="pull-right"><a href="#passwordModal" data-toggle="modal">修改</a></span>
+                        <input type="password" class="form-control" id="password" placeholder="{{ profile.user.password }}" disabled>
+                      </div>
+                  </div>
+             </div>
+        </div>
+
+      </div><!-- /.row -->
+    <!-- /昵称模态框 -->
+<div class="modal fade" id="nicknameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">昵称修改</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-nickname" class="control-label">新昵称</label>
+            <input type="text" class="form-control" id="recipient-nickname" name="nickname">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+        <!-- /座右铭模态框 -->
+<div class="modal fade" id="mottoModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">座右铭修改</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-motto" class="control-label">新座右铭</label>
+            <input type="text" class="form-control" id="recipient-motto" name="motto">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+        <!-- /个人简介模态框 -->
+<div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">个人简介修改</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-profile" class="control-label">新个人简介</label>
+              <textarea class="form-control" id="recipient-profile" rows="5" name="profile"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+            <!-- /用户名模态框 -->
+<div class="modal fade" id="usernameModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">用户名修改</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-username" class="control-label">新用户名</label>
+            <input type="text" class="form-control" id="recipient-username" name="username">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+                <!-- /密码模态框 -->
+<div class="modal fade" id="passwordModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">密码修改</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+            {% csrf_token %}
+          <div class="form-group">
+            <label for="recipient-password" class="control-label">新密码</label>
+            <input type="password" class="form-control" id="recipient-password" name="password">
+              <label for="recipient-password1" class="control-label">再输入密码</label>
+            <input type="password" class="form-control" id="recipient-password1" name="password1">
+          </div>
+
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary">修改</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
+{% block js %}
+        <script>
+$('#usernameModal').on('show.bs.modal', function (event) {
+  var modal = $(this);
+  var modify_btn = modal.find('.modal-footer .btn-primary');
+  modify_btn.click(function () {
+      var b = $('#recipient-username').val();
+      $.ajax({
+                url: "{% url 'modify_username' %}",
+                type: 'POST',
+                data: modal.find('.modal-body form').serialize(),
+                cache: false,
+                success: function(data){
+                        // 更新精选状态
+
+                        if(data['status']=="SUCCESS"){
+                            $('#usernameModal').modal('hide');
+                            $('#username').val(b);
+                            alert('用户名修改成功，请重新登录');
+                            window.location.href = "{% url 'logout' %}";
+                        }else{
+                            alert(data['message'])
+                        }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+  });
+})
+</script>
+    <script>
+$('#nicknameModal').on('show.bs.modal', function (event) {
+  var modal = $(this);
+  var modify_btn = modal.find('.modal-footer .btn-primary');
+  modify_btn.click(function () {
+      var b = $('#recipient-nickname').val();
+      $.ajax({
+                url: "{% url 'modify_nickname' %}",
+                type: 'POST',
+                data: modal.find('.modal-body form').serialize(),
+                cache: false,
+                success: function(data){
+                        // 更新精选状态
+                    $('#nicknameModal').modal('hide');
+                        if(data['status']=="SUCCESS"){
+                            $('#nickname').val(b);
+                        }else{
+                            alert(data['message'])
+                        }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+  });
+})
+</script>
+    <script>
+$('#mottoModal').on('show.bs.modal', function (event) {
+  var modal = $(this);
+  var modify_btn = modal.find('.modal-footer .btn-primary');
+  modify_btn.click(function () {
+      var b = $('#recipient-motto').val();
+      $.ajax({
+                url: "{% url 'modify_motto' %}",
+                type: 'POST',
+                data: modal.find('.modal-body form').serialize(),
+                cache: false,
+                success: function(data){
+                        // 更新精选状态
+                    $('#mottoModal').modal('hide');
+                        if(data['status']=="SUCCESS"){
+                            $('#motto').val(b);
+                        }else{
+                            alert(data['message'])
+                        }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+  });
+})
+</script>
+<script>
+$('#profileModal').on('show.bs.modal', function (event) {
+  var modal = $(this);
+  var modify_btn = modal.find('.modal-footer .btn-primary');
+  modify_btn.click(function () {
+      var b = $('#recipient-profile').val();
+      $.ajax({
+                url: "{% url 'modify_profile' %}",
+                type: 'POST',
+                data: modal.find('.modal-body form').serialize(),
+                cache: false,
+                success: function(data){
+                        // 更新精选状态
+                    $('#profileModal').modal('hide');
+                        if(data['status']=="SUCCESS"){
+                            $('#profile').val(b);
+                        }else{
+                            alert(data['message'])
+                        }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+  });
+})
+</script>
+
+            <script>
+$('#passwordModal').on('show.bs.modal', function (event) {
+  var modal = $(this);
+  var modify_btn = modal.find('.modal-footer .btn-primary');
+  modify_btn.click(function () {
+      var b = $('#recipient-password').val();
+      $.ajax({
+                url: "{% url 'modify_password' %}",
+                type: 'POST',
+                data: modal.find('.modal-body form').serialize(),
+                cache: false,
+                success: function(data){
+                        // 更新精选状态
+
+                        if(data['status']=="SUCCESS"){
+                            $('#passwordModal').modal('hide');
+                            $('#password').val(b);
+                            alert('用户名修改成功，请重新登录');
+                            window.location.href = "{% url 'login' %}";
+                        }else{
+                            alert(data['message'])
+                        }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+  });
+})
+</script>
+{% endblock %}

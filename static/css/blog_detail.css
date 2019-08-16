@@ -1,0 +1,11 @@
+div.django-ckeditor-widget {
+    width: 100%;
+}
+
+#comment_list div p{
+    display: inline-block;
+}
+
+span.active{
+    color: red;
+}

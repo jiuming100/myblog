@@ -1,0 +1,16 @@
+ul{
+    margin: 0px;
+    padding: 0px;
+    display: inline-block;
+}
+li{
+    list-style: none;
+    display: inline-block;
+}
+div.django-ckeditor-widget{
+    width: 100%;
+    display: block;
+}
+
+
+

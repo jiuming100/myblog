@@ -1,0 +1,166 @@
+{% load staticfiles %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="码二哥小站是一个面向开发者和读者的知识分享社区。码二哥小站专注于提升写作体验和阅读感受，为创作者提供一个稳定和谐的环境，为读者提供一个简洁舒服的阅读界面，为大家创造一个和谐的社区，烦请大家多提反馈意见，敬请期待！">
+        <meta name="author" content="码二哥">
+        <meta name="keywords" content="开发者,码二哥,小站,博客,开发者,程序猿,程序媛,极客,编程,代码,开源,IT网站,Developer,Programmer,Coder,Geek,技术社区" />
+
+        <link href="{% static 'img/icon25.png' %}" rel="SHORTCUT ICON">
+        <title>{% block title %}码二哥{% endblock %}</title>
+        <link href="{% static 'bootstrap-3.3.7/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/blog.css' %}" rel="stylesheet">
+    </head>
+  <body>
+
+   <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="{% url 'index' %}">码二哥小站</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+              {% block active %}
+            <li><a href="/">首页</a></li>
+            <li><a href="{% url 'blog' %}">博客</a></li>
+            <li class="active"><a href="{% url 'aboutus' %}">关于我们</a></li>
+              {% endblock %}
+          </ul>
+         <form class="navbar-form navbar-left" method="post" action="{% url 'search' %}">
+             {% csrf_token %}
+            <div class="form-group">
+              <input name="search" type="text" class="form-control" placeholder="最近热点文章">
+            </div>
+            <input type="submit" class="btn btn-primary" value="搜索"/>
+          </form>
+
+        {% if request.user.is_authenticated %}
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">你好:{{ request.user.username }}
+{% if unread_count %}
+                        <svg viewBox="0 0 8 8"
+                             width="8px"
+                             height="8px"
+                             id="my_svg"
+                             >
+                            <circle cx="4"
+                                    cy="4"
+                                    r="4"
+                                    fill="#ff6b6b"
+                                    ></circle>
+                        </svg>
+{% endif %}
+                  <span class="caret" id="user_info" ></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="{% url 'homepage' request.user.user_profile.id %}">个人主页</a></li>
+                <li><a href="{% url 'message' %}">我的消息 <span class="badge live_notify_badge">{{ unread_count }}</span></a></li>
+                <li><a href="{% url 'my_favourite' %}">我的收藏</a></li>
+                <li><a href="/admin/">后台管理</a></li>
+                <li role="separator" class="divider"></li>
+                <li class="dropdown-header">用户功能</li>
+                <li><a href="{% url 'modify_info' %}">修改个人信息</a></li>
+                <li><a href="{% url 'logout' %}">退出</a></li>
+              </ul>
+            </li>
+          </ul>
+        {% else %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url 'login' %}"><span style="color: #0f74a8">点击登录/注册</span></a></li>
+          </ul>
+        {% endif %}
+          <a type="button" class="btn btn-primary navbar-btn pull-right" href="{% url 'generate' %}">
+          写博客
+         </a>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+  <header class="jumbotron">
+    <div class="container">
+      <h1>关于码二哥小站</h1>
+      <p class="lead">码二哥小站是一个面向开发者和读者的知识分享社区。码二哥小站专注于提升写作体验和阅读感受，为创作者提供一个稳定和谐的环境，为读者提供一个简洁舒服的阅读界面，为大家创造一个和谐的社区，烦请大家多提反馈意见，敬请期待！</p>
+    </div>
+  </header>
+
+  <div class="container">
+
+    <!-- Docs nav
+  ================================================== -->
+    <div class="row">
+      <div class="col-md-3 ">
+        <div id="toc" class="bc-sidebar">
+
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <article class="post page">
+          <section class="post-content">
+            <h2 id="-">关于我们</h2>
+<p>Bootstrap中文网 -- <a href="http://www.bootcss.com/">www.bootcss.com</a> 创建于2012年。起因是国内没有较好的关于Bootstrap的中文教程和交流渠道，因此，我们对Bootstrap的文档进行了翻译整理，并且建立了QQ群和微博（<a href="http://weibo.com/bootcss">@bootcss</a>），方便更多热爱这个CSS框架的攻城师们分享、交流自己在前端设计、开发方面的心得。</p>
+<h2 id="-bootstrap-">展示你的Bootstrap作品</h2>
+<p>你是Bootstrap粉丝吗？你正在用Bootstrap做开发吗？你开发的网站是 Powered By Bootstrap 的吗？那就把你的网站show出来吧！</p>
+<p>凡是经过确认采用Bootstrap CSS框架的网站，我们会将你所提交网站的截图及介绍展示到“Bootstrap优站精选”列表中，并有机会在 Bootstrap中文网 的首页进行推荐。</p>
+<blockquote>
+<p>请发邮件到下面的邮箱，并在邮件标题上注明（Bootstrap网站作品提交 -- 网站名称或网址）。<br>Mail： <a href="mailto:admin@bootcss.com">admin@bootcss.com</a></p>
+</blockquote>
+<h2 id="-">加入我们</h2>
+<p>Bootstrap中文网致力于前端开发推广，坚持分享、开放的互联网精神，旨在为广大前端攻城师、设计师提供交流的平台，如果你和我们有相同的目标，我们乐意一起携手前行。</p>
+<p>如果你也热爱前端开发、热爱 Bootstrap，有一颗创业的心，欢迎和我们联系，更欢迎你加入我们的团队！</p>
+<p>Mail: <a href="mailto:admin@bootcss.com">admin@bootcss.com</a></p>
+
+          </section>
+        </article>
+      </div>
+    </div>
+
+  </div>
+
+
+
+    <footer class="footer ">
+  <div class="container">
+    <hr>
+    <div class="row footer-bottom">
+      <ul class="list-inline text-center">
+        <li><a href="http://www.miibeian.gov.cn/" target="_blank">京ICP备11008151号-6</a></li><li>京公网安备11010802014853</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'bootstrap-3.3.7/js/bootstrap.min.js' %}"></script>
+      <script src="{% static 'notifications/notify.js' %}" type="text/javascript"></script>
+    <script>
+        //自定义实时获取未读消息
+        function my_special_notification_callback(data){
+            unread_count = data['unread_count'];
+            if (unread_count == 0) {
+                $('#my_svg').hide();
+            }else{
+                if($('#my_svg').length>0){
+                    $('#my_svg').show();
+                }else{
+                    var newElement=$('<svg viewBox="0 0 8 8" width="8px" height="8px" id="my_svg"><circle cx="4" cy="4" r="4" fill="#ff6b6b"></circle></svg>');
+                    $('#user_info').before(newElement);
+                }
+
+            }
+            $('.live_notify_badge').text(unread_count);
+        }
+    </script>
+{% register_notify_callbacks callbacks='my_special_notification_callback' %}
+</body></html>

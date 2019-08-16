@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load notifications_tags %}
+{% notifications_unread as unread_count %}
+<title>{% block title %}码二哥|我的消息{% endblock %}</title>
+{% block active %}
+            <li><a href="/">首页</a></li>
+            <li><a href="{% url 'blog' %}">博客</a></li>
+            <li><a href="{% url 'aboutus' %}">关于我们</a></li>
+{% endblock %}
+{% block content %}
+<ul class="nav nav-pills" role="tablist">
+  <li role="presentation" class="active"><a href="#">留言/回复 {% if unread_count %}<span class="badge live_notify_badge">{% live_notify_badge %}</span>{% endif %}</a></li>
+  <li role="presentation"><a href="#">系统消息</a></li>
+  <li role="presentation"><a href="#">私信</a></li>
+    <a class="btn btn-primary pull-right" href="{% url 'notifications:mark_all_as_read' %}?next={% url 'message' %}">全部标为已读</a>
+</ul> <hr/>
+
+    <div class="row">
+        <div class="col-sm-12 blog-main">
+            <ul class="list-unstyled">
+            {% for notify in messages %}
+                <li>{{ forloop.counter }}.<a href="{% url 'message_handle' notify.pk %}">{{ notify.verb|truncatechars:45 }}</a><span class="pull-right small">{{ notify.timesince }}之前</span></li>
+            {% empty %}
+                <div class="alert alert-warning" role="alert">没有消息通知哦！</div>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+
+
+ {% endblock %}
+{% block js %}
+
+{% endblock %}

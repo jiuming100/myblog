@@ -1,0 +1,54 @@
+{% extends 'blog.html' %}
+{% block blog_main %}
+        <div class="col-sm-8 blog-main">
+        <!--开始继承-->
+        {% block left_content %}
+        <div class="page-header">
+          <h1>搜索结果   <span class="badge">共{% if not blogs %}0{% else %}{{ blogs.paginator.count }}{% endif %}篇</span></h1>
+        </div>
+
+            {% for blog in blogs %}
+          <div class="blog-post">
+          <a href="{% url 'blog_detail' blog.pk %}">
+            <h3 class="blog-post-title">{{ blog.title }}</h3>
+          </a>
+            <p class="blog-post-meta" style="font-size: smaller"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span> {{ blog.blog_category }} &nbsp;阅读({{ blog.get_read_count }}) &nbsp;评论({{ blog.get_comment_count }}) &nbsp; {{ blog.create_time|date:'Y-m-d H:i:s' }} &nbsp; 作者: {{ blog.author }}</p>
+
+          </div><!-- /.blog-post -->
+                {% empty %}
+                没有搜索结果
+            {% endfor %}
+            {% endblock %}
+<nav aria-label="Page navigation" class="text-center">
+  <ul class="pagination">
+      {% if blogs.has_previous %}
+    <li>
+      <a href="?{{ url }}&page={{ blogs.previous_page_number }}" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+      {% endif %}
+
+  {% for i in page_range %}
+      {% ifequal i '...' %}
+          <li><a href="">{{ i }}</a></li>
+      {% else %}
+            {% ifequal i blogs.number %}
+                <li class="active"><a href="">{{ i }}</a></li>
+            {% else %}
+                <li><a href="?{{ url }}&page={{ i }}">{{ i }}</a></li>
+            {% endifequal %}
+
+      {% endifequal %}
+  {% endfor %}
+    {% if blogs.has_next %}
+    <li>
+      <a href="?{{ url }}&page={{ blogs.next_page_number }}" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  {% endif %}
+  </ul>
+</nav>
+        </div><!-- /.blog-main -->
+        {% endblock %}

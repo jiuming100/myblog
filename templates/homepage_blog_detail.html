@@ -1,0 +1,247 @@
+{% extends 'homepage.html' %}
+{% load staticfiles %}
+{% block title %}码二哥|个人主页{% endblock %}
+
+{% block homepage_left_content %}
+    <div class="blog-post">
+            <h2 class="text-center">{{ blog.title }}</h2>
+            <p class="blog-post-meta"><a style="display: inline-block;" href="{% url 'homepage' author.id %}">From:{{ blog.author.user }}</a>  <span class="glyphicon glyphicon-tags" aria-hidden="true"></span><a href="{% url 'categroy' blog.blog_category_id %}"> {{ blog.blog_category }}</a>  阅读({{ blog.get_read_count }}) 评论({{ blog.get_comment_count }}){% if blog.is_init %}<span class="label label-danger pull-right">原创</span>{% endif %}</p>
+        <p> {{ blog.content|safe }}</p>
+    <div class="text-info small">时间:{{ blog.create_time|date:'Y-m-d H:i:s' }}</div>
+    {% if not blog.is_init %}<div class="text-danger small">原文来自：{{ blog.init_address }}</div>{% endif %}
+     </div>
+     <div class="row">
+            <ul class="pager">
+
+                    {% if fore %}
+                        <li><a href="{% url 'homepage_blog_detail' fore.id %}">
+                            前一篇
+                        </a></li>
+                    {% else %}
+                        <li class="disabled"><a href="">
+                            前一篇
+                        </a></li>
+                    {% endif %}
+
+
+                    {% if behind %}
+                        <li class="pull-right"> <a href="{% url 'homepage_blog_detail' behind.id %}">
+                            后一篇
+                        </a></li>
+                    {% else %}
+                        <li class="pull-right disabled">
+                        <a href="" class="dis">
+                            后一篇
+                        </a></li>
+                    {% endif %}
+            </ul>
+      <hr/>
+     <span>文章设置：留言<a href="javascript:void(0)" onclick="startReplay(this)">{% if blog.is_replay %}关闭{% else %}开启{% endif %}</a></span>
+     <span class="text-danger pull-right small">{{ blog.get_likes_count }}人喜欢 | {{ blog.get_favourite_count }}人收藏</span>
+     </div>
+
+
+    <div class="row">
+    <hr/>
+    {% if blog.is_replay %}
+        <div id="comment_list">
+            {% for c in comments %}
+                    <div class="panel panel-default">
+                      <div class="panel-heading">{{ c.user.user.username }}留言<span style="font-size: 12px">（{{ c.create_time|date:'Y-m-d H:i:s'  }}）</span>:
+                          {% if c.is_show %}
+                          <button type="button" class="btn btn-default btn-xs pull-right" onclick="show(this, {{ c.id }})"><span class="glyphicon glyphicon-flag" aria-hidden="true">已精选</span> </button>
+                          {% else %}
+                          <button type="button" class="btn btn-primary btn-xs pull-right" onclick="show(this, {{ c.id }})"><span class="glyphicon glyphicon-flag" aria-hidden="true">精选</span> </button>
+                          {% endif %}
+                      </div>
+                      <div class="panel-body" style="font-size: 14px;overflow: hidden;" id="comment_{{ c.id }}">
+                        {{ c.comment|safe }}
+                        {% if c.is_top %}
+                          <a href="javascript:void(0);" class="small" style="margin-left:20px;display:inline-block" onclick="is_top(this, {{ c.id }})">取消置顶</a>
+                        {% else %}
+                            <a href="javascript:void(0);" class="small top" style="margin-left:20px;display:inline-block" onclick="is_top(this, {{ c.id }})">置顶</a>
+                        {% endif %}
+                        {% for s in c.related_parent.all %}
+                            <hr/>
+                            <span class="text-primary">您的回复：</span><span>{{ s.comment }}</span>
+                        {% empty %}
+                          <a href="javascript:void(0);" onclick="replay(this,'{{ c.user.username }}',{{ c.id }})" class="pull-right replay">回复</a>
+                        {% endfor %}
+                      </div>
+                    </div>
+            {% empty %}
+                <div class="alert alert-warning" role="alert">暂时没有人给你留言哦！</div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="alert alert-danger" role="alert">留言功能您已关闭！</div>
+    {% endif %}
+    </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+    //前台展示
+    function show(obj, id) {
+        var is_show = $(obj).hasClass('btn-primary');
+        var span_ele = $(obj.getElementsByClassName('glyphicon'));
+        $.ajax({
+                url: "{% url 'is_show' %}",
+                type: 'GET',
+                data: {
+                    comment_id: id,
+                    is_show: is_show,
+                },
+                cache: false,
+                success: function(data){
+                        // 更新精选状态
+                        if(is_show){
+                            $(obj).attr("class","btn btn-default btn-xs pull-right");
+                            span_ele.text("已精选");
+                        }else{
+                            $(obj).attr("class","btn btn-primary btn-xs pull-right");
+                            span_ele.text("精选");
+
+                            if(data['is_top']=='false'){
+                                var top_btn = $(obj).parents().next().children("a");
+                                top_btn.text("置顶");
+                                top_btn.attr("class","small top");
+                            }
+                        }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+    }
+    //置顶ajax
+    function is_top(obj, id) {
+        var is_top = $(obj).hasClass('top');
+        $.ajax({
+                url: "{% url 'is_top' %}",
+                type: 'GET',
+                data: {
+                    comment_id: id,
+                    is_top: is_top,
+                },
+                cache: false,
+                success: function(data){
+                        // 更新精选状态
+                        if(is_top){
+                            $(obj).attr("class","small");
+                            $(obj).text("取消置顶");
+                            if(data['is_show']=='true'){
+                                var show_btn = $(obj).parent().prev().children("button");
+                                show_btn.attr("class","btn btn-default btn-xs pull-right");
+                                show_btn.children().text("已精选")
+                            }
+                        }else{
+                            $(obj).attr("class","small top");
+                            $(obj).text("置顶");
+                        }
+                },
+                error: function(xhr){
+                    console.log(xhr);
+                }
+            });
+    }
+    </script>
+
+    <script>
+    //回复js
+    function replay(obj,name,id) {
+        if($(obj).text()=="回复"){
+            $(".replay").text("回复");
+            $("textarea").parent().remove();
+            $(obj).text("收起");
+            var forms = '<textarea name="comment" cols="40" rows="4" style="margin-bottom: 10px;margin-top:5px;resize: none" class="form-control relay"></textarea>';
+            var btn = '<button class="btn btn-primary pull-right" href="javascript:void(0);" onclick="replay_ajax(this,'+ id +')">留言</button>' ;
+
+            $(obj).after('<div>' + forms + btn + '</div>');
+
+            }else{
+                $(obj).text("回复");
+                $(obj).next().remove();
+            }
+    }
+    //留言ajax提交get方式
+    function replay_ajax(obj,id){
+
+        var comment = $(obj).prev().val();
+        if($.trim(comment).length==0){
+            alert("留言不能为空");
+            return false
+        }
+        $.ajax({
+                    url: "{% url 'auth_replay' %}",
+                    type: 'GET',
+                    data: {
+                        blog_id: {{ blog.id }},
+                        comment_id: id,
+                        comment: comment,
+                    },
+                    cache: false,
+                    success: function(data){
+                        if(data['status']=="SUCCESS"){
+                            var replay = '<hr/><span class="text-primary">您的回复：</span><span>'+comment+'</span>';
+                            $(obj).parent().prev().remove();
+                            $(obj).parent().prev().after(replay);
+                            $(obj).parent().remove();
+                        }else{
+                            alert(data['message']);
+                        }
+                    },
+                    error: function(xhr){
+                        console.log(xhr);
+                    }
+                });
+        return false;
+    }
+
+    if (window.location.hash) {
+            $('html').animate({
+                scrollTop: $(window.location.hash).offset().top - 60
+            }, 500);
+        }
+    </script>
+
+    <script>
+    function startReplay(obj) {
+        //
+        $.ajax({
+                    url: "{% url 'set_repaly' %}",
+                    type: 'GET',
+                    data: {
+                        blog_id: {{ blog.id }},
+                        is_replay: '{{ blog.is_replay }}',
+                    },
+                    cache: false,
+                    success: function(data){
+                        if(data['status']=="SUCCESS"){
+                            if($(obj).text()=="开启"){
+                                $(obj).text("关闭");
+                                if(data['comment']=='NO'){
+                                    $(".alert").text("暂时没有人给你留言哦！");
+                                    $(".alert").removeClass('alert-danger').addClass('alert-warning');
+                                }
+                            }else{
+                                $(obj).text("开启");
+                                if(data['comment']=='NO'){
+                                    $(".alert").text("留言功能您已关闭！");
+                                    $(".alert").removeClass('alert-warning').addClass('alert-danger');
+                                }
+                            }
+                            window.location.reload()
+
+                        }else{
+                            alert(data['message']);
+                        }
+                    },
+                    error: function(xhr){
+                        console.log(xhr);
+                    }
+                });
+        //
+    }
+    </script>
+{% endblock %}

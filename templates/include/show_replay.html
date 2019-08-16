@@ -1,0 +1,38 @@
+<div class="row">
+    <hr/>
+    {% if blog.is_replay %}
+        <div id="comment_list">
+            {% for c in self_msgs %}
+                    <div class="panel panel-default">
+                      <div class="panel-heading">{{ c.user.user.username }}留言<span style="font-size: 12px">（{{ c.create_time|date:'Y-m-d H:i:s'  }}）</span>:<span class="pull-right" style="font-size: 12px">等待作者审核</span></div>
+                      <div class="panel-body" style="font-size: 14px;overflow: hidden;" id="comment_{{ c.id }}">
+                        {{ c.comment|safe }}
+                      </div>
+                    </div>
+            {% endfor %}
+            {% for c in comments %}
+                    <div class="panel panel-info">
+                      <div class="panel-heading">{{ c.user.user.username }}留言<span style="font-size: 12px">（{{ c.create_time|date:'Y-m-d H:i:s'  }}）</span>:{% if c.is_top %}<span class="small pull-right">置顶留言</span>{% endif %}</div>
+                      <div class="panel-body" style="font-size: 14px;overflow: hidden;" id="comment_{{ c.id }}">
+                        {{ c.comment|safe }}
+                          {% for s in c.related_parent.all %}
+                          <hr/>
+                            <span class="text-primary">作者回复：</span><span>{{ s.comment }}</span>
+                          {% endfor %}
+                      </div>
+                    </div>
+            {% endfor %}
+        {% if comments or self_msgs %}
+        {% else %}
+            <div class="alert alert-warning" role="alert">暂时没有留言哦！赶紧留言抢个沙发坐坐！</div>
+        {% endif %}
+        </div>
+    {% endif %}
+</div>
+<script>
+    if (window.location.hash) {
+            $('html').animate({
+                scrollTop: $(window.location.hash).offset().top - 110
+            }, 500);
+        }
+</script>

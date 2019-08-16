@@ -1,0 +1,28 @@
+def replay(request):
+    data = {}
+    data['status'] = 'FAIL'
+
+    blog_id = int(request.GET.get('blog_id'))
+    comment_id = int(request.GET.get('comment_id'))
+    msg = request.GET.get('comment')
+    if len(str(msg).strip()) == 0:
+        data['status'] = 'FAIL'
+        data['message'] = '留言不能为空'
+        return JsonResponse(data)
+
+    if Comment.objects.filter(parent_id=comment_id).count()==0:
+        comment = Comment()
+        comment.blog_id = blog_id
+        comment.user = request.user
+        comment.parent = Comment.objects.filter(id=comment_id).first()
+        comment.comment = msg
+        comment.save()
+        data['status'] = 'SUCCESS'
+    else:
+        data['message'] = '已经留言了'
+    # data['username'] = comment.user.username
+    # data['comment_time'] = comment.create_time.strftime('%Y-%m-%d %H:%M:%S')
+    # data['comment'] = comment.comment
+    # data['id'] = comment.id
+
+    return JsonResponse(data)
